@@ -1,4 +1,9 @@
+import os
+import hashlib
+import re
 from sqlalchemy import *
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response, session
 
 app = Flask(__name__)
@@ -8,18 +13,15 @@ app = Flask(__name__)
 DATABASE_URI = "postgresql://localhost/users"
 engine = create_engine(DATABASE_URI)
 
-
+app.secret_key = '\n\x1f\xe9(\xf0DdG~\xd4\x863\xa0\x10\x1e\xbaF\x10\x16\x7f(\x06\xb7/'
 
 @app.route('/')
 def hello_world():
+    if 'username' not in session:
+        return redirect('/login')
     g.conn = engine.connect()
-    cursor = g.conn.execute('SELECT * FROM userpass')
-    retpage = ""
-    for userpass in cursor:
-        user = userpass[0]
-        pswd = userpass[1]
-        retpage += "{0}: {1}<br>".format(user, pswd)
-    return retpage
+    cursor = g.conn.execute('SELECT * FROM userpass WHERE username = %s', session['username'])
+    return cursor.fetchone()[1]
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -49,6 +51,7 @@ def create():
             return render_template("create.html", **context)
 
         g.conn.execute("INSERT INTO userpass VALUES (%s, %s)", username, passhash)
+        return redirect('/')
 
     return render_template("create.html")
 
@@ -57,13 +60,18 @@ def create():
 def login():
     if request.method == 'POST':
         g.conn = engine.connect()
-        cursor = g.conn.execute("SELECT pass FROM userpass WHERE user=%s",request.form['username'])
-        print(cursor.fetchone())
-        try:
-            pass
-        except:
-            print("Invalid username or password")
-            return redirect('/')
+        cursor = g.conn.execute("SELECT pass FROM userpass WHERE username=%s",request.form['username'])
+        passhash = cursor.first()[0]
+        if passhash == None:
+            return render_template('login.html', error="Incorrect username or password")
+        password = request.form['password']
+        print hashlib.md5(password).hexdigest()
+        if passhash != hashlib.md5(password).hexdigest():
+            return render_template('login.html', error="Incorrect password")
+
+        session['username'] = request.form['username']
+        return redirect('/')
+
     return render_template('login.html')
 
 
