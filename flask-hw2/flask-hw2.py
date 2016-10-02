@@ -27,6 +27,39 @@ def hello_world():
         retpage += "{0}: {1}<br>".format(user, pswd)
     return retpage
 
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    if request.method == 'POST':
+        if request.form['username'] == '' or\
+                        'username' not in request.form:
+            context = dict(error_message = "No username given")
+            return render_template("create.html", **context)
+        if request.form['password'] == '' or\
+                        'password' not in request.form:
+            context = dict(error_message = "No password given")
+            return render_template("create.html", **context)
+        if request.form['password_conf'] != request.form['password'] or\
+                        'password' not in request.form:
+            context = dict(error_message = "Passwords must match")
+            return render_template("create.html", **context)
+
+        username = request.form['username'].strip()
+        passhash = hashlib.md5(request.form['password']).hexdigest()
+
+        g.conn = engine.connect()
+
+        cursor = g.conn.execute("SELECT * FROM userpass WHERE username=%s", username)
+
+        if cursor.first() != None:
+            context = dict(error_message = "User already exists")
+            return render_template("create.html", **context)
+
+        g.conn.execute("INSERT INTO userpass VALUES (%s, %s)", username, passhash)
+
+    return render_template("create.html")
+
+
+
 
 if __name__ == '__main__':
     app.run()
