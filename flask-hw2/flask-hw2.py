@@ -11,19 +11,21 @@ app = Flask(__name__)
 
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/userpass'
-DATABASE_URI = 'postgresql://dyn-160-39-252-160.dyn.columbia.edu:5432/userpass'
+DATABASE_URI = "postgresql://dyn-160-39-252-160.dyn.columbia.edu/users"
 engine = create_engine(DATABASE_URI)
 
-g.conn = engine.connect()
-
-cursor = g.conn.execute('Select * from userpass')
-
-print(cursor.fetchone())
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    g.conn = engine.connect()
+    cursor = g.conn.execute('SELECT * FROM userpass')
+    retpage = ""
+    for userpass in cursor:
+        user = userpass[0]
+        pswd = userpass[1]
+        retpage += "{0}: {1}<br>".format(user, pswd)
+    return retpage
 
 
 if __name__ == '__main__':
