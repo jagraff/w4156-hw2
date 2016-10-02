@@ -1,13 +1,8 @@
-import os
 import hashlib
-import re
 from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response, session
 
 app = Flask(__name__)
-
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/userpass'
 DATABASE_URI = "postgresql://localhost/users"
@@ -98,7 +93,6 @@ def login():
         if passhash == None:
             return render_template('login.html', error="Incorrect username or password")
         password = request.form['password']
-        print hashlib.md5(password).hexdigest()
         if passhash != hashlib.md5(password).hexdigest():
             return render_template('login.html', error="Incorrect password")
 
