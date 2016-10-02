@@ -1,17 +1,11 @@
-from flask import Flask
-import os
-import hashlib
-import re
 from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response, session
 
 app = Flask(__name__)
 
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/userpass'
-DATABASE_URI = "postgresql://dyn-160-39-252-160.dyn.columbia.edu/users"
+DATABASE_URI = "postgresql://localhost/users"
 engine = create_engine(DATABASE_URI)
 
 
@@ -59,6 +53,18 @@ def create():
     return render_template("create.html")
 
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        g.conn = engine.connect()
+        cursor = g.conn.execute("SELECT pass FROM userpass WHERE user=%s",request.form['username'])
+        print(cursor.fetchone())
+        try:
+            pass
+        except:
+            print("Invalid username or password")
+            return redirect('/')
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
