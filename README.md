@@ -16,7 +16,7 @@ As of now, the app takes the user to a register/login page by default. From ther
 
 **Technologies:**
 
-*Python 2.7
+_Python 2.7_
 
 Python installed without any issue. We setup a virtual environment, so that we could make sure we maintain the same version of various packages across all of our machines even if we need to update the local packages or environments associated with other projects. This allowed us also to generate a list of requirements that we can tap into when setting up machines in the future.
 
