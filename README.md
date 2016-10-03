@@ -20,17 +20,17 @@ _Python 2.7_
 
 Python installed without any issue. We setup a virtual environment, so that we could make sure we maintain the same version of various packages across all of our machines even if we need to update the local packages or environments associated with other projects. This allowed us also to generate a list of requirements that we can tap into when setting up machines in the future.
 
-*Flask
+_Flask_
 
 We had both worked with Flask previously, so it did not take us long to set it up. The trickiest part was figuring out which module we should use to link to the database so that we could have a set of persistent information.
 
 Flask quickly generated the pages from our HTML templates and returned information to the user. It played well with the Python logic we were putting together, and we only had a few minor issues tying everything together - mostly regarding syntax.
 
-*HTML Templates
+_HTML Templates
 
 The HTML templates worked well with Flask. We did not try anything too fancy with them, but they passed the variables we wanted to move back and forth without any issue.
 
-*Postgresql
+_Postgresql
 
 The database was our most challenging project. After toying with running the database from the command line for awhile, we finally opted to use the desktop app available at postgresql.org to launch our database. Once we started it up, we began inserting some information manually from the command line, so that we could test it in the app. This all worked as it should. However, as mentioned earlier, the first tie-ins between Python and Postgresql were our biggest issues.
 
