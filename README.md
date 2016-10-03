@@ -1,8 +1,8 @@
 #Homework 2 - Toy Project
 
 *Group Members:*
-Jacob Graff
-Andrew Feather
+Jacob Graff (jag2302)
+Andrew Feather (af2849)
 
 Github Repository: [https://github.com/jagraff/w4156-hw2]
 
