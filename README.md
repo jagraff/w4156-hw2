@@ -12,13 +12,13 @@ We are one-half of one of the JP Morgan teams, so for this homework, we decided 
 
 We set up a basic Flask application with a set of HTML templates that helped generate a few basic pages. Next, we added a Postgresql database and tied it to the application, so we could create usernames and hashed passwords to secure users’ login information.
 
-As of now, the app takes the user to a register/login page by default. From there, the user can create a username or enter one if they already have one. Then the user is redirected to a page that greets them to let them know they are successfully logged in. To have the correct greeting, we also built in STUFF ABOUT SESSION HERE
+As of now, the app takes the user to a register/login page by default. From there, the user can create a username or enter one if they already have one. Then the user is redirected to a page that greets them to let them know they are successfully logged in. To have the correct greeting, we used the Flask session object, which allowed us to store user data accross multiple pages. This meant that the home page could greet the user by their username after they logged in
 
 **Technologies:**
 
 _Python 2.7_
 
-Python installed without any issue. We setup a virtual environment, so that we could make sure we maintain the same version of various packages across all of our machines even if we need to update the local packages or environments associated with other projects. This allowed us also to generate a list of requirements that we can tap into when setting up machines in the future.
+Python installed without any issue. We setup a virtual environment, so that we could make sure we maintain the same version of various packages across all of our machines even if we need to update the local packages or environments associated with other projects. This allowed us also to generate a list of requirements (pip freeze > requirements.txt), that we can tap into when setting up machines in the future.
 
 _Flask_
 
