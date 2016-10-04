@@ -26,6 +26,8 @@ We had both worked with Flask previously, so it did not take us long to set it u
 
 Flask quickly generated the pages from our HTML templates and returned information to the user. It played well with the Python logic we were putting together, and we only had a few minor issues tying everything together - mostly regarding syntax.
 
+Flask also provides the session object, which as mentioned allowed us to persist user data across multiple page views.
+
 _HTML Templates_
 
 The HTML templates worked well with Flask. We did not try anything too fancy with them, but they passed the variables we wanted to move back and forth without any issue.
